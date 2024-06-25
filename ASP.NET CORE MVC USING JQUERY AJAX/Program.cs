@@ -1,7 +1,24 @@
+using ASP.NET_CORE_MVC_USING_JQUERY_AJAX.ApplicationDbContext;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+
+//Configure the ConnectionString and DbContext class
+builder.Services.AddDbContext<EFCoreDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EFCoreDBConnection"));
+});
+
+
+
+builder.Services.AddControllersWithViews()
+.AddJsonOptions(options =>
+{
+    // A property naming policy, or null to leave property names unchanged.
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
 
 var app = builder.Build();
 
